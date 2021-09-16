@@ -1,4 +1,4 @@
-L = 50; %change this to 100000 for question 5
+L =100000; %change this to 100000 for question 5
 %generating a equiprobable binary sequence
 D = zeros(1,L); %generating a sequence of thousand zeros
 positions = randperm(L,L/2); %choosing 500 numbers randomly between 1 and 1000 without replacement
@@ -21,16 +21,33 @@ threshold = 0;
 Y = -A*ones(1,L);
 Y(R>threshold)=A;
 
-%generating the bins sequence
-bin_n = 2; %change this to 100 for question 5(a)
+bin_n=100;
 R_max = max(R);
 R_min = min(R);
-width = (R_max-R_min)/(bin_n);
-bins_limits = linspace(R_min,R_max,bin_n+1);
-%counting y values for each bin
-bins = zeros(bin_n);
+width = (R_max-R_min)/bin_n;
+bins = linspace(R_min,R_max,bin_n);
 
-R_sorted=sort(R);
+frequency= zeros(1,bin_n);
+for i = 1:L
+    for k = 1:bin_n-1
+        if (R(i) >= bins(k)) && (R(i) <= bins(k+1))
+            frequency(k) = frequency(k) + 1;
+        end
+    end
+end
+
+%plotting the histogram
+figure;
+bar(bins,frequency,1);
+title("Histogram of R");
+%using the buit in function hist()
+figure;
+hist(R,bin_n);
+title("Histogram of R (Using hist())");
+%
+        
+    
+    
 
 
 
