@@ -1,4 +1,4 @@
-L = 50; %change this to 100000 for question 5
+L = 1000; %change this to 100000 for question 5
 %generating a equiprobable binary sequence
 D = zeros(1,L); %generating a sequence of thousand zeros
 positions = randperm(L,L/2); %choosing 500 numbers randomly between 1 and 1000 without replacement
@@ -31,6 +31,4 @@ bins_limits = linspace(R_min,R_max,bin_n+1);
 bins = zeros(bin_n);
 
 R_sorted=sort(R);
-
-
 
