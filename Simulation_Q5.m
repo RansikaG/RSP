@@ -44,9 +44,35 @@ title("Histogram of R");
 figure;
 hist(R,bin_n);
 title("Histogram of R (Using hist())");
-%
+
         
-    
+%pdf of f_R|S(r|S=A)
+r_ifSA = R(S==A); %list containing R values when S = A
+R_max1 = max(r_ifSA);
+R_min1 = min(r_ifSA);
+width_1 = (R_max1-R_min1)/bin_n; 
+bins_centers_1 = R_min1+width_1/2:width_1:R_max1; 
+[y1,x1] = hist(r_ifSA,bins_centers_1);
+prob1 = y1/(length(r_ifSA)*width_1);
+figure;
+bar(x1,prob1);
+hold on;
+plot(x1,prob1,'r'); %plotting the pdf
+title("pdf of f_{R|S}(r|S=A)");
+
+%pdf of f_R|S(r|S=-A)
+r_ifS_A = R(S==-A); %list containing R values when S = A
+R_max1 = max(r_ifS_A);
+R_min1 = min(r_ifS_A);
+width_1 = (R_max1-R_min1)/bin_n; 
+bins_centers_1 = R_min1+width_1/2:width_1:R_max1; 
+[y2,x2] = hist(r_ifS_A,bins_centers_1);
+prob2 = y2/(length(r_ifS_A)*width_1);
+figure;
+bar(x2,prob2);
+hold on;
+plot(x2,prob2,'r'); %plotting the pdf
+title("pdf of f_{R|S}(r|S=-A)");
     
 
 

@@ -1,4 +1,4 @@
-L =50; %change this to 100000 for question 5
+L =100000; %change this to 100000 for question 5
 %generating a equiprobable binary sequence
 D = zeros(1,L); %generating a sequence of thousand zeros
 positions = randperm(L,L/2); %choosing 500 numbers randomly between 1 and 1000 without replacement
@@ -21,16 +21,16 @@ threshold = 0;
 Y = -A*ones(1,L);
 Y(R>threshold)=A;
 
-bin_n=2;
+bin_n=100;
 R_max = max(R);
 R_min = min(R);
 width = (R_max-R_min)/bin_n;
-bins = linspace(R_min,R_max,bin_n+1);
+bins = linspace(R_min,R_max,bin_n);
 
 frequency= zeros(1,bin_n);
 for i = 1:L
     for k = 1:bin_n-1
-        if (R(i) >= bins(k)) && (R(i) < bins(k+1))
+        if (R(i) >= bins(k)) && (R(i) <= bins(k+1))
             frequency(k) = frequency(k) + 1;
         end
     end
@@ -43,10 +43,22 @@ title("Histogram of R");
 %using the buit in function hist()
 figure;
 hist(R,bin_n);
-title("Histogram of R (Using built-in function)");
-%
+title("Histogram of R (Using hist())");
+
         
-    
+%plotting the pdf of f_R|S(r|S=A)
+r_ifSA = R(S==A); %creating a list containing R values when S = A
+R_max1 = max(r_ifSA);
+R_min1 = min(r_ifSA);
+width_1 = (R_max1-R_min1)/bin_n; %setting bin width
+bins_centers_1 = R_min1+width_1/2:width_1:R_max1; %creating the bins list
+[yval1,xval1] = hist(r_ifSA,bins_centers_1); %plotting the histogram
+yval1 = yval1/(lengt*width_1);
+figure;
+bar(xval1,yval1);
+hold on;
+plot(xval1,yval1,'r'); %plotting the pdf
+title("pdf of f_{R|S}(r|S=A)");
     
 
 
