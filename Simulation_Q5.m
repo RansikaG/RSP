@@ -3,33 +3,62 @@ D = zeros(1,L);
 positions = randperm(L,L/2);
 D(positions) = ones(1,L/2); 
 
+figure;
+stairs(1:L,D);
+axis([0 50 -0.5 1.5])
+title("Binary Sequence");
+
 %sequence of pulses
 A = 1
 S = -A*ones(1,L);
 S(D==1)= A;
 
+figure;
+stairs(1:L,S);
+axis([0 50 -1*A-1 A+1])
+title("Transmitted Signal");
+
 % AWGN
 mean = 0;
 sigma = 1;
 N = mean + sigma*randn(1,L);
+R = S + N;
 
 %Interference
 meanI = 0;
 sigmaI = 1;
 I = meanI + sigmaI*randn(1,L);
-%generating the received signal and plotting it
-R = S + N;
 %R = S + N + I;
 
+%Scaling
 alpha=3
 %R = alpha*S + N;
+
+figure;
+stairs(1:L,R);
+%axis([0 L -1.5*A 1.5*A])
+title("Received Signal");
 
 %generating Y sequence
 threshold = 0;
 Y = -A*ones(1,L);
 Y(R>threshold)=A;
 
-bin_no=100;
+figure;
+subplot(2,1,1);
+stairs([1:L],S);
+axis([0 50 -1*A-1 A+1])
+title("Transmitted Signal");
+
+subplot(2,1,2);
+stairs([1:L],Y);
+axis([0 50 -1*A-1 A+1])
+title("Y Signal");
+
+
+bin_no=100;%No of bins
+
+
 R_max = max(R);
 R_min = min(R);
 width = (R_max-R_min)/bin_no;
@@ -37,10 +66,10 @@ bin_limits = R_min:width:R_max;
 
 bins_centers = R_min+width/2:width:R_max-width/2;
 frequency= zeros(1,bin_no);
-for k=1:bin_no
+for i=1:bin_no
     for j =1:L
-        if (R(j)<=bin_limits(k+1)) && (R(j)>bin_limits(k))
-            frequency(k)=frequency(k)+1;
+        if (R(j)<=bin_limits(i+1)) && (R(j)>bin_limits(i))
+            frequency(i)=frequency(i)+1;
         end
     end
 end
@@ -89,7 +118,7 @@ probR = y/(length(R)*width);
 figure;
 bar(x,probR);
 hold on;
-plot(x,probR,'r'); %plotting the pdf
+plot(x,probR,'r');
 title("pdf of f_R(r)");
     
 %E[R|S=A]
