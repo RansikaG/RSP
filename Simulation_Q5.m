@@ -22,7 +22,7 @@ title("Transmitted Signal");
 mean = 0;
 sigma = 1;
 N = mean + sigma*randn(1,L);
-R = S + N;
+%R = S + N;
 
 %Interference
 meanI = 0;
@@ -32,7 +32,7 @@ I = meanI + sigmaI*randn(1,L);
 
 %Scaling
 alpha=3
-%R = alpha*S + N;
+R = alpha*S + N;
 
 figure;
 stairs(1:L,R);
@@ -55,6 +55,8 @@ stairs([1:L],Y);
 axis([0 50 -1*A-1 A+1])
 title("Y Signal");
 
+%Error rate
+Error = sqrt(sum((S-Y).^2)/L)
 
 bin_no=100;%No of bins
 
@@ -64,6 +66,7 @@ R_min = min(R);
 width = (R_max-R_min)/bin_no;
 bin_limits = R_min:width:R_max;
 
+%histogram calclation
 bins_centers = R_min+width/2:width:R_max-width/2;
 frequency= zeros(1,bin_no);
 for i=1:bin_no
@@ -83,7 +86,7 @@ hist(R,bin_no);
 title("Histogram of R (Using hist())");
 
         
-%pdf of f_R|S(r|S=A)
+%f_R|S(r|S=A)
 r_ifSA = R(S==A); %S = A
 R_max1 = max(r_ifSA);
 R_min1 = min(r_ifSA);
@@ -96,7 +99,7 @@ hold on;
 plot(x1,prob1,'r');
 title("pdf of f_{R|S}(r|S=A)");
 
-%pdf of f_R|S(r|S=-A)
+%f_R|S(r|S=-A)
 r_ifS_A = R(S==-A); %S = -A
 R_max1 = max(r_ifS_A);
 R_min1 = min(r_ifS_A);
@@ -109,7 +112,7 @@ hold on;
 plot(x2,prob2,'r');
 title("pdf of f_{R|S}(r|S=-A)");
 
-%pdf of f_R
+%f_R(r)
 R_max = max(R);
 R_min = min(R);
 width= (R_max-R_min)/bin_no; 
