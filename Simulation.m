@@ -2,7 +2,7 @@ L = 1000; %change this to 100000 for question 5
 %generating a equiprobable binary sequence
 D = zeros(1,L); %generating a sequence of thousand zeros
 positions = randperm(L,L/2); %choosing 500 numbers randomly between 1 and 1000 without replacement
-D(p) = ones(1,L/2); %replacing the zeros in D with ones in the randomly chosen places
+D(positions) = ones(1,L/2); %replacing the zeros in D with ones in the randomly chosen places
 A = 1;
 %generating a sequence of pulses
 S = zeros(1,L); %generating a sequence of thousand zeros
