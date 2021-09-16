@@ -1,4 +1,4 @@
-L =1000; 
+L =100000; 
 D = zeros(1,L); 
 positions = randperm(L,L/2);
 D(positions) = ones(1,L/2); 
@@ -12,7 +12,12 @@ S(D==1)= A;
 mean = 0;
 sigma = 1;
 N = mean + sigma*randn(1,L);
+
+%Interference
+
+I = mean + sigma*randn(1,L);
 %generating the received signal and plotting it
+%R = S + N;
 R = S + N;
 
 %generating Y sequence
@@ -20,7 +25,7 @@ threshold = 0;
 Y = -A*ones(1,L);
 Y(R>threshold)=A;
 
-bin_no=10;
+bin_no=100;
 R_max = max(R);
 R_min = min(R);
 width = (R_max-R_min)/bin_no;
@@ -50,8 +55,7 @@ r_ifSA = R(S==A); %S = A
 R_max1 = max(r_ifSA);
 R_min1 = min(r_ifSA);
 widthSA = (R_max1-R_min1)/bin_no; 
-bins_centers_1 = R_min1+widthSA/2:widthSA:R_max1; 
-[y1,x1] = hist(r_ifSA,bins_centers_1);
+[y1,x1] = hist(r_ifSA,bin_no);
 prob1 = y1/(length(r_ifSA)*widthSA);
 figure;
 bar(x1,prob1);
@@ -64,8 +68,7 @@ r_ifS_A = R(S==-A); %S = -A
 R_max1 = max(r_ifS_A);
 R_min1 = min(r_ifS_A);
 widthS_A = (R_max1-R_min1)/bin_no; 
-bins_centers_2 = R_min1+widthS_A/2:widthS_A:R_max1; 
-[y2,x2] = hist(r_ifS_A,bins_no);
+[y2,x2] = hist(r_ifS_A,bin_no);
 prob2 = y2/(length(r_ifS_A)*widthS_A);
 figure;
 bar(x2,prob2);
@@ -77,8 +80,7 @@ title("pdf of f_{R|S}(r|S=-A)");
 R_max = max(R);
 R_min = min(R);
 width= (R_max-R_min)/bin_no; 
-bins_centers = R_min+width/2:width:R_max; 
-[y,x] = hist(R,bins_centers);
+[y,x] = hist(R,bin_no);
 probR = y/(length(R)*width);
 figure;
 bar(x,probR);

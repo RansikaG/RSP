@@ -12,8 +12,14 @@ S(D==1)= A;
 mean = 0;
 sigma = 1;
 N = mean + sigma*randn(1,L);
+
+%Interference
+meanI = 0;
+sigmaI = 1;
+I = meanI + sigmaI*randn(1,L);
 %generating the received signal and plotting it
-R = S + N;
+%R = S + N;
+R = S + N + I;
 
 %generating Y sequence
 threshold = 0;
